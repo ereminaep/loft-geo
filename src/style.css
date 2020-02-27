@@ -1,0 +1,223 @@
+html,
+body,
+#map {
+    width: 100%;
+    height: 800px;
+    padding: 0;
+    margin: 0;
+}
+
+.map {
+    height: 767px;
+    position: relative;
+}
+
+.addReview {
+    margin: 17px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.addReview__header {
+    font-family: "Fira Sans";
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #ff8663;
+    margin-bottom: 15px;
+}
+
+.addReview__input {
+    width: 100%;
+    height: 22px;
+    border: 1px solid #c4c4c4;
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    outline: none;
+    font-family: "Fira Sans";
+    padding: 5px 0;
+    text-indent: 1em;
+    color: #c4c4c4;
+    font-family: "Fira Sans";
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 22px;
+}
+
+.addReview__input::placeholder {
+    color: #9f9f9f;
+}
+
+.addReview__textarea {
+    width: 100%;
+    border: 1px solid #c4c4c4;
+    background-color: #ffffff;
+    border-radius: 20px;
+    height: 105px;
+    resize: none;
+    outline: none;
+    font-family: "Fira Sans";
+    padding: 5px 0;
+    text-indent: 1em;
+    color: #c4c4c4;
+    font-family: "Fira Sans";
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 22px;
+}
+
+.addReview__textarea::placeholder {
+    color: #9f9f9f;
+}
+
+.addReview__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.addReview__button {
+    background-color: #ff8663;
+    color: #fff;
+    border: none;
+    font-family: "Fira Sans";
+    font-size: 12px;
+    font-weight: 300;
+    margin-top: 5px;
+    padding: 7px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.reviewForm {
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 30px;
+    width: 379px;
+    height: 527px;
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.reviewForm.active {
+    display: block;
+}
+
+.reviewForm__header {
+    background-color: #ff8663;
+    height: 44px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.reviewForm__text {
+    color: #fff;
+    font-family: "Fira Sans";
+    font-size: 12px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+}
+
+.reviewForm__close {
+    width: 14px;
+    height: 14px;
+    background-image: url('./images/close.png');
+    margin-right: 12px;
+}
+
+.reviewForm__text {
+    margin-left: 12px;
+}
+
+.reviewForm__marker {
+    background-image: url('./images/marker.png');
+    width: 8px;
+    height: 14px;
+    margin-right: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+ ::-webkit-scrollbar-button {
+    background-color: #fff;
+    ;
+}
+
+ ::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+ ::-webkit-scrollbar-track-piece {
+    background-color: #fff;
+}
+
+ ::-webkit-scrollbar-thumb {
+    height: 50px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+}
+
+ ::-webkit-scrollbar-corner {
+    background-color: #fff;
+}
+
+.reviewList {
+    display: flex;
+    flex-direction: column;
+    margin: 17px 15px;
+    height: 155px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.reviewItem {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.reviewItem__header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 12px;
+}
+
+.reviewItem__reviewAutor {
+    font-family: "Fira Sans";
+    font-size: 16px;
+    font-weight: 500;
+    padding-right: 11px;
+}
+
+.reviewItem__reviewPlace,
+.reviewItem__reviewData {
+    opacity: 0.75;
+    color: #4f4f4f;
+    font-family: "Fira Sans";
+    font-size: 16px;
+    font-weight: 400;
+    font-size: 14px;
+    outline: none;
+}
+
+.reviewItem__reviewData {
+    margin-left: 5px;
+}
+
+.reviewItem__content {
+    color: #4f4f4f;
+    font-family: "Fira Sans";
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+    outline: none;
+}
