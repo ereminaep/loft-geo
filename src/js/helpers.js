@@ -15,6 +15,7 @@ function formatDate(date) {
 
 /* загрузить базу точек */
 function loadDataBase(data) {
+
     if (localStorage.getItem('item') != null) {
         data = JSON.parse(localStorage.getItem('item'));
     } else {

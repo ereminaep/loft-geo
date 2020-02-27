@@ -33,7 +33,9 @@ function mapInit() {
     ymaps.ready(function() {
 
         /* загружаем данные отзывов из LocalStorage */
+        console.log(data);
         data = loadDataBase(data);
+        console.log(data);
 
         /* загружаем карту */
         var myMap = new ymaps.Map('map', {
