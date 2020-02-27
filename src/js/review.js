@@ -16,7 +16,7 @@ class Review {
     }
 
     /* сформировать объект отзыва из формы и добавить к другим отзывам */
-    getReview(coords) {
+    getReview(data, coords) {
         let name = document.querySelector('.addReview__input[name="name"]'); // поле Имя
         let place = document.querySelector('.addReview__input[name="place"]'); // поле Место
         let message = document.querySelector('.addReview__textarea'); // поле Комментарий
@@ -32,7 +32,7 @@ class Review {
             'id': date.getTime(),
         };
 
-        reloadDataBase(item);
+        reloadDataBase(item, data);
         [name.value, place.value, message.value] = ['', '', ''];
         return item;
     }
@@ -47,20 +47,25 @@ class Review {
 
         let templateReview = Handlebars.compile("<div class='reviewItem'><div class='reviewItem__header'><div class='reviewItem__reviewAutor'>{{name}}</div><div class='reviewItem__reviewPlace'>{{place}}</div><div class='reviewItem__reviewData'>{{date}}</div></div><div class='reviewItem__content'>{{message}}</div></div>");
 
+        /* если нажимаем на адрес в кластере, выбираем все отзывы адресов карусели, иначе один отзыв одной точки*/
+
         if (balloons.length > 0) {
             for (let i = 0; i < balloons.length; i++) {
                 let r = data.filter(item => item.coords[0] == balloons[i][0] && item.coords[1] == balloons[i][1]);
                 for (let j = 0; j < r.length; j++) {
-                    filteredBalloons.push(r[i]);
+                    filteredBalloons.push(r[j]);
                 }
             }
 
             filtered = filteredBalloons.sort(function(a, b) { return a.id < b.id ? -1 : 1; }).reduce(function(filteredBalloons, el) {
                 if (!filteredBalloons.length || filteredBalloons[filteredBalloons.length - 1].id != el.id) {
-                    filteredBalloons.push(el);
+                    if (el != 'undefined') {
+                        filteredBalloons.push(el);
+                    }
                 }
                 return filteredBalloons;
             }, []);
+
             coords = balloons[0];
             balloons = [];
         } else {
@@ -72,7 +77,6 @@ class Review {
             reviewList.innerHTML = reviewList.innerHTML + item;
         }
     }
-
 }
 
 export {

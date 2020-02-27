@@ -15,19 +15,16 @@ function formatDate(date) {
 
 /* загрузить базу точек */
 function loadDataBase(data) {
-    if (localStorage.getItem('item')) {
+    if (localStorage.getItem('item') != null) {
         data = JSON.parse(localStorage.getItem('item'));
-        console.log(data);
+    } else {
+        data = [];
     }
     return data;
 }
 
 /* обновить либо пополнить базу точек */
-function reloadDataBase(item) {
-    let data = [];
-    if (localStorage.getItem('item') != null) {
-        data = JSON.parse(localStorage.getItem('item'));
-    }
+function reloadDataBase(item, data) {
     data.push(item);
     localStorage.setItem('item', JSON.stringify(data));
 }

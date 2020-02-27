@@ -10,19 +10,21 @@ let review = new Review();
 let coords; // координаты клика по точке
 let balloons = []; // координаты активного балуна
 let map = document.querySelector('#map'); // карта
-var data = []; // массив со всеми точками карты, может обновляться из localStorage
+let data = []; // массив со всеми точками карты, может обновляться из localStorage
 let close = document.querySelector('.reviewForm__close'); // кнопка закрытия формы
 let add = document.querySelector('.addReview__button'); // кнопка добавления отзыва
 let go = document.querySelectorAll('.goform'); //ссылка с балуна
 
 /*параметры карты*/
-let centerMap = [55.751574, 37.573856]; //центр карты
-let zoomMap = 12; //зум карты
-let colorMarkerMap = '#7e1f96';
+const centerMap = [55.751574, 37.573856]; //центр карты
+const zoomMap = 12; //зум карты
+const colorMarkerMap = '#7e1f96';
+const presetPoint = 'islands#violetIcon';
 
 /*параметры кластера*/
-let preset = 'islands#invertedVioletClusterIcons';
-let clusterBalloonContentLayout = 'cluster#balloonCarousel';
+const preset = 'islands#invertedVioletClusterIcons';
+const clusterBalloonContentLayout = 'cluster#balloonCarousel';
+const gridSize = 80;
 
 /* шаблон содержимого балуна */
 let balloonContent = Handlebars.compile("<a href='#' data-item='{{coords}}' class='goform'>{{adress}}</a><br/>{{message}}");
@@ -50,18 +52,16 @@ function mapInit() {
             });
 
         /* добавление на карту точку с балуном */
-        function addPount(myMap, coords, item) {
+        function addPount(coords, item) {
             let placemarkt = new ymaps.Placemark(coords, {
                 balloonContentHeader: item.place,
                 balloonContentBody: balloonContent({ coords: coords, adress: item.adress, message: item.message }),
                 balloonContentFooter: item.data,
                 clusterCaption: item.name
             }, {
-                preset: 'islands#violetIcon',
+                preset: presetPoint,
             });
-
-            myMap.geoObjects.add(placemarkt);
-            clusterer.add(placemarkt);
+            return placemarkt;
         }
 
         /* события */
@@ -70,10 +70,11 @@ function mapInit() {
         /* добавить отзыв при клике на кнопку добавления */
         add.onclick = function(e) {
             e.preventDefault;
-            let item = review.getReview(coords);
+            let item = review.getReview(data, coords);
             review.showRewiew(coords, balloons, data);
-            addPount(myMap, coords, item);
-
+            let placemarkt = addPount(coords, item);
+            myMap.geoObjects.add(placemarkt);
+            clusterer.add(placemarkt);
         };
 
         /* отслеживаем клик по адресу из балуна */
@@ -89,6 +90,7 @@ function mapInit() {
         /* показываем форму при клике на карту */
         myMap.events.add('click', function(e) {
             coords = e.get('coords');
+            console.log(coords);
             ymaps.geocode(coords).then(function(res) {
                 var first = res.geoObjects.get(0),
                     name = first.properties.get('name');
@@ -115,45 +117,28 @@ function mapInit() {
                 }
             });
 
-        let getPointData = function(index) {
-                return {
-                    balloonContentHeader: data[index].place,
-                    balloonContentBody: balloonContent({ coords: data[index].coords, adress: data[index].adress, message: data[index].message }),
-                    balloonContentFooter: data[index].data,
-                    clusterCaption: data[index].name
-                };
-            },
 
-            getPointOptions = function() {
-                return {
-                    preset: 'islands#violetIcon'
-                };
-            };
-
+        /* добавляем загруженные точки на карту */
         let points = [];
 
         for (let i = 0; i < data.length; i++) {
-
             let newIco = new ymaps.Placemark(data[i].coords, {}, {
                 iconColor: colorMarkerMap
             });
-
             newIco.events.add('click', function(e) {
                 e.preventDefault;
                 review.showForm();
             })
-
             points.push(data[i].coords);
         }
 
         let geoObjects = [];
-
         for (let i = 0, len = points.length; i < len; i++) {
-            geoObjects[i] = new ymaps.Placemark(points[i], getPointData(i), getPointOptions());
+            geoObjects[i] = addPount(data[i].coords, data[i]);
         }
         clusterer.add(geoObjects);
         clusterer.options.set({
-            gridSize: 80,
+            gridSize: gridSize,
             clusterDisableClickZoom: true
         });
         myMap.geoObjects.add(clusterer);
